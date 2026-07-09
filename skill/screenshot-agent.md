@@ -20,17 +20,25 @@
    - 首次引导流程：
      1. 帮用户建截图文件夹（如 `./screenshots`）
      2. 运行 `python screenshot_agent.py --setup`，拿到 `screenshot_guide`，按 OS 告诉用户截图快捷键和怎么改保存路径
-     3. 运行 `python screenshot_agent.py --detect-wechat`，如果检测到微信目录，问用户要不要开启自动导入
+     3. 运行 `python screenshot_agent.py --detect-wechat`，展示检测结果。
+        如果找到多个目录（多账号），帮用户识别哪个是自己的账号，让用户选。
+        **重要提醒**：微信导入会把该目录下所有聊天的图片都导进来，不只是文件助手。如果用户介意隐私，跳过这一步。
+        用户确认后执行：
+        ```bash
+        python screenshot_agent.py --set-wechat "<选中的路径>"
+        ```
      4. 问用户要不要设定时自动整理（"每天早上 9 点自动整理截图？"）
      5. 展示默认五分类，问要不要增减
      6. **每确认一项立刻执行对应的 `--set-*` 命令写入配置**——不要等到最后
    - 首次引导完成后，配置文件和截图文件夹都已就位，继续 Step 0.2
 
-2. **同步微信文件助手**：
+2. **同步微信图片**：
    ```bash
    python screenshot_agent.py --process-all
    ```
-   这一步会：① 把微信文件助手收到的新图片拷贝到截图目录（如果配置了 `wechat_auto_import`） ② 清理过期的 cold storage ③ 返回未处理截图列表。
+   这一步会：① 把微信聊天图片拷贝到截图目录（如果配置了 `wechat_auto_import`） ② 清理过期的 cold storage ③ 返回未处理截图列表。
+   
+   **注意**：微信图片是所有聊天的混合，不只是文件助手。手机截图通过文件助手发到电脑后，会被存入微信的聊天图片目录。
    
    如果用户开启了 `wechat_auto_import` 但没配置 `wechat_folder`，`--process-all` 会自动跳过导入。此时要提醒用户："微信导入还没配置，要现在设置吗？"
 
