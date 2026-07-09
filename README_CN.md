@@ -23,20 +23,7 @@ pip install Pillow pytesseract
 
 ---
 
-## 配置你的 AI 工具
-
-`skill/screenshot-agent.md` 文件告诉 AI 如何当截图管家。放进你用的工具里：
-
-| AI 工具 | 配置方式 |
-|---|---|
-| **Claude Code** | 复制到 `.claude/skills/`，或直接在这个目录打开 Claude Code |
-| **Cursor** | 添加到 `.cursorrules` 或粘贴到 Cursor 的自定义指令 |
-| **Cline / Roo Code** | 添加到 `.clinerules` 或粘贴到自定义指令 |
-| **Windsurf** | 添加到 `.windsurfrules` |
-| **GitHub Copilot** | 粘贴到自定义指令（`.github/copilot-instructions.md`） |
-| **ChatGPT / Claude Web** | 把 skill 内容当 system prompt 粘贴到会话开头 |
-
-配置好后，说 **"整理截图"**（或对应工具的触发方式），AI 就会接管一切。
+`skill/screenshot-agent.md` 是给 AI 的指令文件，支持自定义指令的 AI 工具都能用——Claude Code、Cursor、Cline、Windsurf、Copilot，或者直接粘贴到 ChatGPT 会话里。
 
 ---
 

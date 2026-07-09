@@ -23,20 +23,7 @@ pip install Pillow pytesseract
 
 ---
 
-## Setup for Your AI Tool
-
-The `skill/screenshot-agent.md` file tells your AI how to be a screenshot butler. Load it into whichever tool you use:
-
-| AI Tool | How to Set Up |
-|---|---|
-| **Claude Code** | Copy to `.claude/skills/` — or just open this directory in Claude Code |
-| **Cursor** | Add to `.cursorrules` or paste into Cursor's custom instructions |
-| **Cline / Roo Code** | Add to `.clinerules` or paste into custom instructions |
-| **Windsurf** | Add to `.windsurfrules` |
-| **GitHub Copilot** | Paste into custom instructions (`.github/copilot-instructions.md`) |
-| **ChatGPT / Claude Web** | Paste the skill content as a system prompt at the start of a session |
-
-Once set up, say **"organize screenshots"** (or your tool's equivalent trigger) and the AI handles the rest.
+The skill file at `skill/screenshot-agent.md` works with any AI tool that supports custom instructions — Claude Code, Cursor, Cline, Windsurf, Copilot, or just paste it into a ChatGPT session.
 
 ---
 
