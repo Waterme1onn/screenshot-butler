@@ -2,7 +2,7 @@
 
 **Not a screenshot tool — a screenshot butler. You snap, it organizes.**
 
-A Python script that scans your screenshot folder, hands them to AI for classification, then archives the originals. Works with any LLM — Claude, ChatGPT, Gemini, or local models.
+A Python script + an AI skill file. Put them together, and your AI assistant becomes a screenshot organizer — classifying, discussing, and archiving every screenshot you take. Works with any AI tool that can run commands.
 
 > A screenshot is a sticky note. Write it down, then toss the paper.
 
@@ -16,90 +16,55 @@ cd screenshot-butler
 pip install Pillow pytesseract
 ```
 
-**Tesseract OCR** (optional — fallback if your AI can't read images directly):
+**Tesseract OCR** (optional — fallback if your AI can't read images natively):
 - Windows: `winget install UB-Mannheim.TesseractOCR`
 - macOS: `brew install tesseract`
 - Linux: `apt install tesseract-ocr`
 
 ---
 
-## How It Works
+## Setup for Your AI Tool
 
-### 1. Scan your screenshot folder
+The `skill/screenshot-agent.md` file tells your AI how to be a screenshot butler. Load it into whichever tool you use:
 
-```bash
-python screenshot_agent.py --list
-```
+| AI Tool | How to Set Up |
+|---|---|
+| **Claude Code** | Copy to `.claude/skills/` — or just open this directory in Claude Code |
+| **Cursor** | Add to `.cursorrules` or paste into Cursor's custom instructions |
+| **Cline / Roo Code** | Add to `.clinerules` or paste into custom instructions |
+| **Windsurf** | Add to `.windsurfrules` |
+| **GitHub Copilot** | Paste into custom instructions (`.github/copilot-instructions.md`) |
+| **ChatGPT / Claude Web** | Paste the skill content as a system prompt at the start of a session |
 
-Returns a JSON list of unprocessed screenshots. Never processes the same image twice (hash-based dedup).
-
-### 2. Send to any AI
-
-Take the JSON output + your screenshot images, send them to any LLM. Use this prompt:
-
-```
-You are a screenshot organizer. Review each image and classify it:
-
-🔍 Explain — errors, foreign text, data that needs explanation
-📋 To-Do  — tasks, requests, things to act on
-📝 Memo   — addresses, accounts, schedules worth remembering
-🎯 Reference — designs, layouts, styles to save as reference
-🗑️ Junk   — accidental screenshots
-
-For each: classify → extract key info → suggest next actions.
-```
-
-### 3. Mark & archive
-
-```bash
-python screenshot_agent.py --mark-done screenshot1.png explain screenshot2.png memo
-python screenshot_agent.py --archive
-```
-
-Processed screenshots move to `.cold-storage/`, auto-deleted after 7 days (3 days for junk).
+Once set up, say **"organize screenshots"** (or your tool's equivalent trigger) and the AI handles the rest.
 
 ---
 
-## Use with Claude Code
-
-If you use [Claude Code](https://claude.ai/code), add the skill file and everything becomes conversational:
+## What It Does
 
 ```
-organize screenshots
+You say: "organize screenshots"
+                │
+AI reads your notes (learns who you are, what you're working on)
+                │
+Scans screenshot folder → reads each image → classifies:
+   🔍 Explain — "What is this error / foreign text / data?"
+   📋 To-Do   — "What do I need to do?"
+   📝 Memo    — "What should I remember?"
+   🎯 Reference — "Keep this as a reference"
+   🗑️ Junk    — Accidental screenshot, toss it
+                │
+Presents everything to you → you pick which to discuss
+                │
+Useful info gets saved to your notes
+Originals move to .cold-storage/ → auto-deleted after 7 days
 ```
-
-The Agent handles the full flow — scanning, reading images, classifying, discussing with you, writing useful info to your notes, and archiving. No manual commands needed.
-
-**Extra features with Claude Code:**
-
-- **Memory-aware** — Agent reads your existing notes before classifying, so suggestions are context-aware ("this error screenshot looks related to your current project")
-- **Auto-write notes** — useful info from screenshots gets saved to your note system automatically
-- **Scheduled runs** — set a daily time and it happens without you
-- **WeChat import** — phone screenshots sent to WeChat File Transfer are auto-imported
-
-### First-time setup
-
-Say "organize screenshots" once. The Agent walks you through:
-- Where to save screenshots (with OS-specific shortcut guides)
-- Whether to auto-import from WeChat
-- Whether to schedule daily runs
-- Category customization
-
-All in conversation. No config files to edit.
-
----
-
-## Phone Screenshots
-
-Phone → send to WeChat File Transfer → PC Agent auto-imports into the screenshot folder.
-
-Zero setup. WeChat is on every Chinese user's phone. No Syncthing needed.
 
 ---
 
 ## The Five Categories
 
-| Category | In One Sentence | What AI Does |
+| Category | In One Sentence | AI Does |
 |---|---|---|
 | 🔍 **Explain** | "Help me understand this" | Explain errors, translate, analyze data |
 | 📋 **To-Do** | "Help me know what to do" | Extract action items, break into next steps |
@@ -107,13 +72,52 @@ Zero setup. WeChat is on every Chinese user's phone. No Syncthing needed.
 | 🎯 **Reference** | "Help me copy this" | Save to reference library, note highlights |
 | 🗑️ **Junk** | Accidental screenshot | Straight to trash |
 
-Customizable — change labels, add or remove categories through conversation or config.
+Customize categories anytime — just tell your AI what to change.
+
+---
+
+## Bonus: Auto-Organize & WeChat Import
+
+Once the skill is loaded, your AI can set up:
+
+- **Scheduled runs** — "Organize screenshots every day at 9 AM." Your AI sets up a cron job and it happens automatically.
+- **WeChat import** — Phone screenshot → send to WeChat File Transfer → AI auto-imports it into the screenshot folder. Zero setup. No Syncthing.
+- **Memory integration** — AI reads your existing notes before classifying, so suggestions are context-aware ("this error screenshot looks related to your current project").
+- **First-time setup wizard** — Say "organize screenshots" once, and your AI walks you through: screenshot folder setup (with OS-specific shortcut guides), WeChat config, scheduling, and category customization.
+
+---
+
+## Manual Mode
+
+Don't want to set up a skill? Just want a script? That works too:
+
+```bash
+python screenshot_agent.py --list              # Scan folder
+# → Send the JSON + images to any LLM manually
+python screenshot_agent.py --mark-done ...     # Mark processed
+python screenshot_agent.py --archive            # Archive to cold storage
+```
+
+---
+
+## Commands
+
+```bash
+python screenshot_agent.py --list           # List unprocessed screenshots
+python screenshot_agent.py --mark-done ...  # Mark as processed
+python screenshot_agent.py --archive        # Archive to cold storage
+python screenshot_agent.py --cleanup        # Purge expired cold storage
+python screenshot_agent.py --stats          # Show statistics
+python screenshot_agent.py --setup          # First-time setup guide
+python screenshot_agent.py --process-all    # Auto mode (import + scan + cleanup)
+python screenshot_agent.py --detect-wechat  # Detect WeChat image folder
+```
 
 ---
 
 ## Configuration
 
-All config is done through conversation (Claude Code) or by editing `config.default.json`:
+Config is done through conversation (with the skill loaded) or by editing `config.default.json`:
 
 | Config | Description | Default |
 |---|---|---|
@@ -125,26 +129,11 @@ All config is done through conversation (Claude Code) or by editing `config.defa
 
 ---
 
-## Commands
-
-```bash
-python screenshot_agent.py --list           # List unprocessed screenshots
-python screenshot_agent.py --mark-done ...  # Mark as processed
-python screenshot_agent.py --archive        # Archive to cold storage
-python screenshot_agent.py --cleanup        # Purge expired cold storage
-python screenshot_agent.py --stats          # Statistics
-python screenshot_agent.py --setup          # First-time setup guide
-python screenshot_agent.py --process-all    # Auto mode (import + scan + cleanup)
-python screenshot_agent.py --detect-wechat  # Detect WeChat folder
-```
-
----
-
 ## Privacy
 
-- The script runs **locally**. Screenshots are not uploaded anywhere unless you send them to a cloud AI.
+- The script runs **locally**. Screenshots are not uploaded anywhere unless your AI tool sends them to a cloud provider.
 - If using cloud AI (Claude API, ChatGPT, etc.), screenshot content is sent to the respective provider.
-- Config files (`.screenshot_agent_config.json`, `.screenshots_processed.json`) contain local paths and should be `.gitignore`d.
+- Config files (`.screenshot_agent_config.json`, `.screenshots_processed.json`) contain local paths — add them to `.gitignore`.
 
 ---
 
