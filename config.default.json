@@ -1,0 +1,20 @@
+{
+  "_comment": "截图管家默认配置。首次使用时通过对话设置，不需要手动改这个文件。",
+  "screenshot_folder": "./screenshots",
+  "categories": [
+    {"key": "explain", "label": "解惑", "icon": "🔍",
+     "description": "帮我搞懂这是什么", "action": "explain"},
+    {"key": "todo", "label": "待办", "icon": "📋",
+     "description": "帮我整理该做什么", "action": "extract_tasks"},
+    {"key": "memo", "label": "备忘", "icon": "📝",
+     "description": "帮我记住这个", "action": "save_note"},
+    {"key": "ref", "label": "参考", "icon": "🎯",
+     "description": "帮我照着这个来", "action": "save_reference"},
+    {"key": "junk", "label": "误截", "icon": "🗑️",
+     "description": "不小心截的", "action": "discard"}
+  ],
+  "auto_process_time": null,
+  "wechat_auto_import": false,
+  "wechat_folder": null,
+  "watch_folders": []
+}
