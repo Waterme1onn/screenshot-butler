@@ -543,6 +543,11 @@ def main():
         result = process_all()
         _print(result)
 
+    elif cmd == "--needs-setup":
+        # Returns {"needs_setup": true} if config file doesn't exist
+        needs = not os.path.exists(CONFIG_FILE)
+        _print({"needs_setup": needs})
+
     elif cmd == "--config":
         _print(cfg)
 
