@@ -63,14 +63,13 @@ Customize categories anytime — just tell your AI what to change.
 
 ---
 
-## Bonus: Auto-Organize & WeChat Import
+## Bonus: Auto-Organize & Memory Integration
 
 Once the skill is loaded, your AI can set up:
 
 - **Scheduled runs** — "Organize screenshots every day at 9 AM." Your AI sets up a cron job and it happens automatically.
-- **WeChat import** — Phone screenshot → send to WeChat File Transfer → AI auto-imports it into the screenshot folder. Zero setup. No Syncthing.
 - **Memory integration** — AI reads your existing notes before classifying, so suggestions are context-aware ("this error screenshot looks related to your current project").
-- **First-time setup wizard** — Say "organize screenshots" once, and your AI walks you through: screenshot folder setup (with OS-specific shortcut guides), WeChat config, scheduling, and category customization.
+- **First-time setup wizard** — Say "organize screenshots" once, and your AI walks you through: screenshot folder setup (with OS-specific shortcut guides), scheduling, and category customization.
 
 ---
 
@@ -96,8 +95,7 @@ python screenshot_agent.py --archive        # Archive to cold storage
 python screenshot_agent.py --cleanup        # Purge expired cold storage
 python screenshot_agent.py --stats          # Show statistics
 python screenshot_agent.py --setup          # First-time setup guide
-python screenshot_agent.py --process-all    # Auto mode (import + scan + cleanup)
-python screenshot_agent.py --detect-wechat  # Detect WeChat image folder
+python screenshot_agent.py --process-all    # Auto mode (scan + cleanup)
 ```
 
 ---
@@ -111,8 +109,6 @@ Config is done through conversation (with the skill loaded) or by editing `confi
 | `screenshot_folder` | Where screenshots live | `./screenshots` |
 | `categories` | Classification labels | Five defaults |
 | `auto_process_time` | Daily auto-organize time | `null` (off) |
-| `wechat_auto_import` | Auto-import from WeChat | `false` |
-| `wechat_folder` | WeChat image directory | Auto-detected |
 
 ---
 

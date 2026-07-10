@@ -63,14 +63,13 @@ AI 先读你的笔记（了解你是谁、在做什么）
 
 ---
 
-## 额外功能：定时 & 微信导入
+## 额外功能：定时 & 记忆集成
 
 Skill 加载后，AI 还能帮你设置：
 
 - **定时整理** — "每天早上 9 点自动整理截图。" AI 帮你建好定时任务，到点自动跑。
-- **微信导入** — 手机截图 → 发微信文件助手 → AI 自动拉进截图目录。零配置，不用 Syncthing。
 - **记忆集成** — AI 分类前先读你的笔记，有上下文（"这张报错跟你的 XX 项目有关"）。
-- **首次引导** — 第一次说"整理截图"，AI 引导你完成所有设置：截图文件夹、各系统快捷键、微信配置、定时、分类定制。全程对话。
+- **首次引导** — 第一次说"整理截图"，AI 引导你完成所有设置：截图文件夹、各系统快捷键、定时、分类定制。全程对话。
 
 ---
 
@@ -96,8 +95,7 @@ python screenshot_agent.py --archive        # 归档到 cold storage
 python screenshot_agent.py --cleanup        # 清理过期截图
 python screenshot_agent.py --stats          # 统计
 python screenshot_agent.py --setup          # 首次设置引导
-python screenshot_agent.py --process-all    # 自动模式（导入+扫描+清理）
-python screenshot_agent.py --detect-wechat  # 探测微信目录
+python screenshot_agent.py --process-all    # 自动模式（扫描+清理）
 ```
 
 ---
@@ -111,8 +109,6 @@ python screenshot_agent.py --detect-wechat  # 探测微信目录
 | `screenshot_folder` | 截图存放目录 | `./screenshots` |
 | `categories` | 分类标签 | 五个默认分类 |
 | `auto_process_time` | 每日自动整理时间 | `null`（关闭） |
-| `wechat_auto_import` | 自动导入微信图片 | `false` |
-| `wechat_folder` | 微信图片目录 | 自动探测 |
 
 ---
 

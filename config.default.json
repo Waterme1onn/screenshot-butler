@@ -13,8 +13,5 @@
     {"key": "junk", "label": "误截", "icon": "🗑️",
      "description": "不小心截的", "action": "discard"}
   ],
-  "auto_process_time": null,
-  "wechat_auto_import": false,
-  "wechat_folder": null,
-  "watch_folders": []
+  "auto_process_time": null
 }
